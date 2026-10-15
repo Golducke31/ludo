@@ -1,0 +1,134 @@
+[gd_resource type="Theme" load_steps=10 format=3]
+
+; Halloween Critter Royale - UI theme.
+; Paleta (plan): negro azulado #0E1220, violeta apagado #6B4E8E,
+; naranja calabaza #E8862E, verde espectral #6FA35A, crema lunar #F3E9C8.
+; Prohibidos neon/cian: tools/audit_palette.py lo verifica.
+; Fase 6: marcos dorados nine-patch (tools/gen_ui_frames.py) + fuentes OFL
+; Almendra (cuerpo), Cinzel (botones) y Creepster (titulos); las tres con
+; cobertura ES completa (verificado con cmap: ñ tildes ¿ ¡).
+
+[ext_resource type="FontFile" path="res://assets/ui/fonts/Almendra-Regular.ttf" id="font_body"]
+[ext_resource type="FontFile" path="res://assets/ui/fonts/Cinzel.ttf" id="font_btn"]
+[ext_resource type="FontFile" path="res://assets/ui/fonts/Creepster-Regular.ttf" id="font_title"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_frame_panel.png" id="frame_panel"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_frame_btn.png" id="frame_btn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+texture = ExtResource("frame_panel")
+texture_margin_left = 44.0
+texture_margin_top = 44.0
+texture_margin_right = 44.0
+texture_margin_bottom = 44.0
+content_margin_left = 18.0
+content_margin_top = 16.0
+content_margin_right = 18.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn"]
+texture = ExtResource("frame_btn")
+texture_margin_left = 22.0
+texture_margin_top = 22.0
+texture_margin_right = 22.0
+texture_margin_bottom = 22.0
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_hover"]
+texture = ExtResource("frame_btn")
+modulate_color = Color(1.16, 1.1, 0.94, 1)
+texture_margin_left = 22.0
+texture_margin_top = 22.0
+texture_margin_right = 22.0
+texture_margin_bottom = 22.0
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_pressed"]
+texture = ExtResource("frame_btn")
+modulate_color = Color(0.82, 0.72, 0.56, 1)
+texture_margin_left = 22.0
+texture_margin_top = 22.0
+texture_margin_right = 22.0
+texture_margin_bottom = 22.0
+content_margin_left = 18.0
+content_margin_top = 12.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_disabled"]
+texture = ExtResource("frame_btn")
+modulate_color = Color(0.48, 0.48, 0.54, 1)
+texture_margin_left = 22.0
+texture_margin_top = 22.0
+texture_margin_right = 22.0
+texture_margin_bottom = 22.0
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_focus"]
+draw_center = false
+border_color = Color(0.91, 0.525, 0.18, 1)
+border_width_left = 2
+border_width_right = 2
+border_width_top = 2
+border_width_bottom = 2
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_edit"]
+bg_color = Color(0.055, 0.067, 0.125, 1.0)
+border_color = Color(0.29, 0.337, 0.471, 1.0)
+border_width_left = 1
+border_width_right = 1
+border_width_top = 1
+border_width_bottom = 1
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+
+[resource]
+default_font = ExtResource("font_body")
+default_font_size = 18
+Label/colors/font_color = Color(0.953, 0.914, 0.784, 1)
+Label/colors/font_outline_color = Color(0.031, 0.039, 0.071, 0.9)
+Label/constants/outline_size = 4
+Label/fonts/font = ExtResource("font_body")
+Button/colors/font_color = Color(0.953, 0.914, 0.784, 1)
+Button/colors/font_hover_color = Color(1, 0.98, 0.91, 1)
+Button/colors/font_pressed_color = Color(0.16, 0.12, 0.06, 1)
+Button/colors/font_disabled_color = Color(0.42, 0.42, 0.47, 1)
+Button/colors/font_focus_color = Color(1, 0.98, 0.91, 1)
+Button/styles/normal = SubResource("StyleBoxTexture_btn")
+Button/styles/hover = SubResource("StyleBoxTexture_btn_hover")
+Button/styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+Button/styles/disabled = SubResource("StyleBoxTexture_btn_disabled")
+Button/styles/focus = SubResource("StyleBoxFlat_btn_focus")
+Button/fonts/font = ExtResource("font_btn")
+Button/font_sizes/font_size = 20
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_panel")
+LineEdit/colors/font_color = Color(0.953, 0.914, 0.784, 1)
+LineEdit/colors/caret_color = Color(0.91, 0.525, 0.18, 1)
+LineEdit/styles/normal = SubResource("StyleBoxFlat_edit")
+LineEdit/styles/focus = SubResource("StyleBoxFlat_edit")
+CheckBox/colors/font_color = Color(0.953, 0.914, 0.784, 1)
+PopupMenu/colors/font_color = Color(0.953, 0.914, 0.784, 1)
+PopupMenu/colors/font_hover_color = Color(0.106, 0.078, 0.047, 1)
+PopupMenu/styles/hover = SubResource("StyleBoxTexture_btn_pressed")
+PopupMenu/styles/panel = SubResource("StyleBoxTexture_panel")
+Title/base_type = &"Label"
+Title/fonts/font = ExtResource("font_title")
+Title/font_sizes/font_size = 44

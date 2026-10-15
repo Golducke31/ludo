@@ -1,0 +1,219 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/settings.gd" id="1"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.055, 0.067, 0.125, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+custom_minimum_size = Vector2(680, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="SectionAccess" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.91, 0.525, 0.18, 1)
+text = "Accessibility"
+
+[node name="CheckReduceMotion" type="CheckBox" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Reduce motion"
+
+[node name="HintReduceMotion" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Turns off piece and dice animations"
+
+[node name="CheckColorblind" type="CheckBox" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Colorblind mode"
+
+[node name="HintColorblind" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Alternative palette + shape badges"
+
+[node name="CheckHighContrast" type="CheckBox" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "High contrast"
+
+[node name="TextScaleRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TextScaleLabel" type="Label" parent="Center/Panel/Margin/VBox/TextScaleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+custom_minimum_size = Vector2(220, 0)
+text = "Text scale"
+
+[node name="TextScaleSlider" type="HSlider" parent="Center/Panel/Margin/VBox/TextScaleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.75
+max_value = 1.75
+step = 0.05
+value = 1.0
+
+[node name="TextScaleValue" type="Label" parent="Center/Panel/Margin/VBox/TextScaleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+custom_minimum_size = Vector2(56, 0)
+text = "100%"
+
+[node name="Spacer1" type="Control" parent="Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="SectionAudio" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.91, 0.525, 0.18, 1)
+text = "Audio"
+
+[node name="VolMasterRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VolMasterLabel" type="Label" parent="Center/Panel/Margin/VBox/VolMasterRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+custom_minimum_size = Vector2(220, 0)
+text = "Master volume"
+
+[node name="VolMasterSlider" type="HSlider" parent="Center/Panel/Margin/VBox/VolMasterRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 0.8
+
+[node name="VolSfxRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VolSfxLabel" type="Label" parent="Center/Panel/Margin/VBox/VolSfxRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+custom_minimum_size = Vector2(220, 0)
+text = "SFX volume"
+
+[node name="VolSfxSlider" type="HSlider" parent="Center/Panel/Margin/VBox/VolSfxRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="VolMusicRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VolMusicLabel" type="Label" parent="Center/Panel/Margin/VBox/VolMusicRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+custom_minimum_size = Vector2(220, 0)
+text = "Music volume"
+
+[node name="VolMusicSlider" type="HSlider" parent="Center/Panel/Margin/VBox/VolMusicRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="Spacer2" type="Control" parent="Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="SectionLanguage" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.91, 0.525, 0.18, 1)
+text = "Language"
+
+[node name="LocaleRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LocaleLabel" type="Label" parent="Center/Panel/Margin/VBox/LocaleRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+custom_minimum_size = Vector2(220, 0)
+text = "Language"
+
+[node name="LocaleOption" type="OptionButton" parent="Center/Panel/Margin/VBox/LocaleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Spacer3" type="Control" parent="Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="ButtonRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="BtnReset" type="Button" parent="Center/Panel/Margin/VBox/ButtonRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 0)
+theme_override_font_sizes/font_size = 22
+text = "Reset to defaults"
+
+[node name="BtnBack" type="Button" parent="Center/Panel/Margin/VBox/ButtonRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(200, 0)
+theme_override_font_sizes/font_size = 26
+text = "Back"

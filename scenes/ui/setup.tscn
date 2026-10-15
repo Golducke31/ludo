@@ -1,0 +1,146 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/setup.gd" id="1"]
+
+[node name="Setup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.055, 0.067, 0.125, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+custom_minimum_size = Vector2(760, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "MATCH SETUP"
+horizontal_alignment = 1
+
+[node name="CountRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="CountLabel" type="Label" parent="Center/Panel/Margin/VBox/CountRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Players:"
+
+[node name="CountSlider" type="HSlider" parent="Center/Panel/Margin/VBox/CountRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 2.0
+max_value = 4.0
+step = 1.0
+value = 2.0
+
+[node name="CountValue" type="Label" parent="Center/Panel/Margin/VBox/CountRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "2"
+
+[node name="HeaderRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="L0" type="Label" parent="Center/Panel/Margin/VBox/HeaderRow"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Seat"
+
+[node name="L1" type="Label" parent="Center/Panel/Margin/VBox/HeaderRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Faction"
+
+[node name="L2" type="Label" parent="Center/Panel/Margin/VBox/HeaderRow"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Type"
+
+[node name="L3" type="Label" parent="Center/Panel/Margin/VBox/HeaderRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Difficulty"
+
+[node name="SeatRows" type="VBoxContainer" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ModeHalloween" type="CheckBox" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+button_pressed = true
+text = "Halloween rules (Fog Portal / Pumpkin Lantern)"
+
+[node name="SeedRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SeedLabel" type="Label" parent="Center/Panel/Margin/VBox/SeedRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Seed (empty = random):"
+
+[node name="SeedEdit" type="LineEdit" parent="Center/Panel/Margin/VBox/SeedRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "random"
+
+[node name="ErrorLabel" type="Label" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.4, 0.4, 1)
+text = ""
+
+[node name="ButtonRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="BtnBack" type="Button" parent="Center/Panel/Margin/VBox/ButtonRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Back"
+
+[node name="BtnStart" type="Button" parent="Center/Panel/Margin/VBox/ButtonRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Start match"

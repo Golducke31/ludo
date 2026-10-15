@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FactionDataResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/faction_data_resource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+data = {
+"accent": "#6FA35A",
+"color": "#6B4E8E",
+"desc_en": "A witch's ghost who forgot how to be scary and learned to race instead.",
+"desc_es": "Un fantasma de bruja que olvidó cómo dar miedo y aprendió a correr.",
+"id": "fantasma_bruja",
+"name_en": "Witch Ghost",
+"name_es": "Fantasma Bruja",
+"sprite_dir": "res://assets/sprites/factions/fantasma_bruja/"
+}

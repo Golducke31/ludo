@@ -1,0 +1,16 @@
+# Godot editor cache — regenerable (se recrea al abrir el proyecto).
+.godot/
+
+# Datos de trabajo del asistente (notas/memoria del proyecto): no forman parte
+# del juego y no deben publicarse.
+.workbuddy-ai/
+
+# Salidas del horneado de relieve: TODAS las texturas van embebidas en los .glb
+# (ver BLENDER_RELIEF.md). Regenerar los PNG sueltos con tools/blender_relief.py.
+assets/models/baked/
+
+# Ruido de sistema / editores
+.DS_Store
+Thumbs.db
+*.tmp
+*~

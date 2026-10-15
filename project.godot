@@ -1,0 +1,39 @@
+; Engine configuration file.
+; Halloween Critter Royale - Godot 4.7.2 / GL Compatibility backend.
+; Docs and code live in English; UI strings are localized (ES default, EN).
+
+config_version=5
+
+[application]
+
+config/name="Halloween Critter Royale"
+config/description="Ludo-style board game with Halloween critters. 2-4 players (human/bot), deterministic core, headless tests."
+run/main_scene="res://scenes/boot/boot.tscn"
+config/features=PackedStringArray("4.7", "Forward+")
+boot_splash/show_image=false
+
+[autoload]
+
+EventBus="*res://scripts/core/event_bus.gd"
+Settings="*res://scripts/save/settings.gd"
+L10n="*res://scripts/i18n/l10n.gd"
+Save="*res://scripts/save/save_manager.gd"
+Stats="*res://scripts/save/stats.gd"
+Audio="*res://scripts/audio/audio_manager.gd"
+Game="*res://scripts/game/game_manager.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/size/window_width_override=1280
+window/size/window_height_override=720
+
+[rendering]
+
+renderer/rendering_method="forward_plus"
+textures/canvas_textures/default_texture_filter=0
+anti_aliasing/quality/msaa_3d=0
+environment/defaults/default_clear_color=Color(0.055, 0.067, 0.125, 1)

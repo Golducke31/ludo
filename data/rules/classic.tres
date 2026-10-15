@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="MatchRulesResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/match_rules_resource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+data = {
+"arm_length": 13,
+"candy_heap_enabled": false,
+"candy_heap_index": 47,
+"column_length": 6,
+"exit_dice_value": 6,
+"extra_turn_cap": 3,
+"halloween_enabled": false,
+"hard_blocks": false,
+"home_steps": 50,
+"lantern_bonus": 2,
+"lantern_index": 30,
+"lantern_send_back": 6,
+"pieces_per_player": 4,
+"portal_bonus": 6,
+"portal_index": 4,
+"ring_size": 52,
+"rules_version": 1,
+"safe_offsets": [0, 7],
+"third_six_penalty": true
+}

@@ -1,0 +1,42 @@
+[gd_resource type="SpriteFrames" load_steps=9 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/factions/fantasma_bruja/frame_000.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/factions/fantasma_bruja/frame_001.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/factions/fantasma_bruja/frame_002.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/factions/fantasma_bruja/frame_003.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/factions/fantasma_bruja/frame_004.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/factions/fantasma_bruja/frame_005.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/factions/fantasma_bruja/frame_006.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/factions/fantasma_bruja/frame_007.png" id="8"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]

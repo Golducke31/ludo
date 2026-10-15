@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FactionDataResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/faction_data_resource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+data = {
+"accent": "#F3E9C8",
+"color": "#6B4E8E",
+"desc_en": "A velvet-pawed daredevil. Extra turns make it purr with greed.",
+"desc_es": "Un bribón de zarpas de terciopelo. Los turnos extra lo hacen ronronear de codicia.",
+"id": "gato_negro",
+"name_en": "Black Cat",
+"name_es": "Gato Negro",
+"sprite_dir": "res://assets/sprites/factions/gato_negro/"
+}

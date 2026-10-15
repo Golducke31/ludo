@@ -1,0 +1,258 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/game/match_root.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/game/views3d/arena_3d.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/game/input_controller.gd" id="7"]
+[ext_resource type="Script" path="res://scripts/game/views/hud.gd" id="8"]
+[ext_resource type="Script" path="res://scripts/game/views/pause_overlay.gd" id="9"]
+[ext_resource type="Script" path="res://scripts/game/views/results_overlay.gd" id="10"]
+
+[node name="MatchRoot" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Arena" type="Node3D" parent="."]
+script = ExtResource("2")
+
+[node name="InputController" type="Node" parent="."]
+script = ExtResource("7")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8")
+
+[node name="SidePanel" type="PanelContainer" parent="CanvasLayer/Hud"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -404.0
+offset_top = 18.0
+offset_right = -18.0
+grow_horizontal = 0
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/Hud/SidePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/Hud/SidePanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="Label" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Turn 0"
+
+[node name="Subheader" type="Label" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "P1"
+
+[node name="DiceLabel" type="Label" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Dice: -"
+
+[node name="PlayerRows" type="VBoxContainer" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Spacer" type="Control" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="BtnRoll" type="Button" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Roll (Space)"
+
+[node name="BtnPause" type="Button" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Pause (Esc)"
+
+[node name="BtnCamera" type="Button" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Camara"
+
+[node name="BonusPanel" type="PanelContainer" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/Hud/SidePanel/Margin/VBox/BonusPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/Hud/SidePanel/Margin/VBox/BonusPanel/Margin"]
+layout_mode = 2
+
+[node name="BonusTitle" type="Label" parent="CanvasLayer/Hud/SidePanel/Margin/VBox/BonusPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Pumpkin Lantern bonus:"
+
+[node name="BtnAdvance" type="Button" parent="CanvasLayer/Hud/SidePanel/Margin/VBox/BonusPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Advance +2"
+
+[node name="BtnSendBack" type="Button" parent="CanvasLayer/Hud/SidePanel/Margin/VBox/BonusPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Send rival back 6"
+
+[node name="TurnBanner" type="Label" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Match over"
+
+[node name="Hint" type="Label" parent="CanvasLayer/Hud/SidePanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "..."
+autowrap_mode = 2
+
+[node name="PauseOverlay" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9")
+
+[node name="Dim" type="ColorRect" parent="CanvasLayer/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/PauseOverlay/Center"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="CanvasLayer/PauseOverlay/Center/VBox"]
+layout_mode = 2
+theme_type_variation = &"Title"
+theme_override_font_sizes/font_size = 48
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="BtnResume" type="Button" parent="CanvasLayer/PauseOverlay/Center/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Resume"
+
+[node name="BtnSave" type="Button" parent="CanvasLayer/PauseOverlay/Center/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Save match"
+
+[node name="BtnLoad" type="Button" parent="CanvasLayer/PauseOverlay/Center/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Load match"
+
+[node name="BtnQuit" type="Button" parent="CanvasLayer/PauseOverlay/Center/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Quit to menu"
+
+[node name="PauseStatus" type="Label" parent="CanvasLayer/PauseOverlay/Center/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+text = ""
+
+[node name="ResultsOverlay" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10")
+
+[node name="Dim" type="ColorRect" parent="CanvasLayer/ResultsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Center" type="CenterContainer" parent="CanvasLayer/ResultsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/ResultsOverlay/Center"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="CanvasLayer/ResultsOverlay/Center/VBox"]
+layout_mode = 2
+theme_type_variation = &"Title"
+theme_override_font_sizes/font_size = 48
+text = "RESULTS"
+horizontal_alignment = 1
+
+[node name="RankingLabel" type="Label" parent="CanvasLayer/ResultsOverlay/Center/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Final ranking:"
+horizontal_alignment = 1
+
+[node name="BtnRematch" type="Button" parent="CanvasLayer/ResultsOverlay/Center/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Rematch"
+
+[node name="BtnMenu" type="Button" parent="CanvasLayer/ResultsOverlay/Center/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Back to menu"

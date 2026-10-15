@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FactionDataResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/faction_data_resource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+data = {
+"accent": "#E8862E",
+"color": "#E8862E",
+"desc_en": "King of the pumpkin patch. Slow to start, impossible to stop.",
+"desc_es": "Rey de la huerta de calabazas. Lento al arrancar, imposible de parar.",
+"id": "rey_calabaza",
+"name_en": "Pumpkin King",
+"name_es": "Rey Calabaza",
+"sprite_dir": "res://assets/sprites/factions/rey_calabaza/"
+}
