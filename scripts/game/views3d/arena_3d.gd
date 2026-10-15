@@ -238,8 +238,9 @@ func _build_stage() -> void:
     _cam_follow.fov = 72.0
     _cam_follow.near = 0.05
     _cam_follow.far = 200.0
+    _cam_follow.current = false          # do NOT let _cam_follow steal current on enter_tree
     add_child(_cam_follow)
-    _cam_follow.current = false
+    _cam.current = true                  # safety: ISO is the live camera at startup
 
     _build_die()
 

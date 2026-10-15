@@ -9,6 +9,12 @@
 # (ver BLENDER_RELIEF.md). Regenerar los PNG sueltos con tools/blender_relief.py.
 assets/models/baked/
 
+# Texturas extraidas por el importador GLB (embedded_image_handling=1): el .scn
+# las referencia por res://assets/models/<base>_<map>_<canal>.png y Godot las
+# recrea al reimportar. No son fuente; se regeneran localmente como baked/.
+assets/models/*.png
+assets/models/*.png.import
+
 # Ruido de sistema / editores
 .DS_Store
 Thumbs.db
