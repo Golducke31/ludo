@@ -179,3 +179,37 @@ sin texturas ni normales y con UVs diminutas o ausentes**. `tools/blender_relief
 (Blender headless) reconstruye cada material con relieve procedural y lo hornea a
 un **atlas compartido por asset** (albedo × AO, rugosidad y normal), embebido en
 el GLB re-exportado. Pasos, valores y trampas: **`BLENDER_RELIEF.md`**.
+
+### Pack PBR (nuevo — `Desktop/newtext`)
+
+Decisión de integración: **sustituir** los materiales horneados del kit por el
+pack PBR del usuario (texturas de 1024² con `_albedo` / `_normal` / `_orm` /
+`_emission`), en vez de añadirlas encima. El pack trae 6 conjuntos (piedra de
+suelo, baldosa pálida, ladrillo de muro, runa brillante, madera oscura, piel de
+calabaza) y un `visual_polish.gd` cuyo `MAP` ya nombraba nuestros materiales.
+
+Puntos clave de la integración (en `arena_3d.gd`, no se adjunta el script suelto):
+
+- **Normalización `relief_`**: los materiales del kit se importan con el prefijo
+  `relief_` (p. ej. `relief_stone_pale`), pero el `MAP` del pack usa nombres
+  sin prefijo. `_pbr_key()` lo recorta antes de la búsqueda; si no coincide, el
+  material queda con su relieve horneado original (p. ej. `relief_team_tint`,
+  `relief_tint_white`, las emisivas del altar).
+- **Triplanar world-space**: `uv1_triplanar` + `uv1_world_triplanar` + `uv1_scale`
+  evita depender de las UVs minúsculas del kit (igual estrategia que el relieve).
+- **Casillas especiales**: `relief_special_orange` se redirige al conjunto
+  `tile_rune_glow`, así las casillas especiales son baldosas rúnicas brillantes.
+- **Runas a verde espectral**: el emisivo de la runa venía en cian; se retintó a
+  `ViewPalette.SPECTRAL_GREEN` (`tools/retint_rune_glow.py`) para pasar el gate
+  de paleta (0 % de píxeles fuera de banda).
+- **Entorno**: se fusionó el entorno del pack en `_build_stage` (tonemap ACES,
+  SSIL, volumetric fog, SSAO/brillo más fuertes, ajuste de saturación/contraste).
+  No se crea un segundo `WorldEnvironment`.
+- **Luces**: se añadió una `DirectionalLight3D` violeta de contraluz y una
+  `OmniLight3D` cálida (naranja) en el centro (la calabaza/altar); se conservan
+  la luz de luna, el relleno cálido y las 4 lámparas de esquina.
+
+Los mapas `_normal` / `_orm` están exentos del escaneo de PNG en
+`tools/audit_palette.py` (son vectores de datos, no arte). Fuente/referencia del
+pack: `assets/third_party/visual_polish.gd` (marcado como no adjuntable) y
+`assets/third_party/LEEME_newtext.md`.

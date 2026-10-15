@@ -10,9 +10,12 @@ verificado por tests headless.
 
 **Estado**: M5 completo (QA + docs) + tablero **3D** integrado (arena isométrica
 construida con el kit GLB propio, texturas de relieve horneadas en Blender,
-cámara en primera persona). Pendientes conocidos: el export real necesita las
-Export Templates de Godot, y quedan partículas ambientales + pulido de HUD
-(ver `KNOWN_ISSUES.md`).
+cámara en primera persona) + **pack PBR de usuario** (`assets/textures/pbr/`,
+6 conjuntos 1024²) aplicado por triplanar world-space en `arena_3d.gd`
+(materiales del kit `relief_*` sustituidos; casillas especiales con runa
+brillante verde espectral; entorno ACES + SSIL + fog volumétrico; luz cálida
+central). Pendientes conocidos: el export real necesita las Export Templates de
+Godot, y quedan partículas ambientales + pulido de HUD (ver `KNOWN_ISSUES.md`).
 
 ## Arrancar
 

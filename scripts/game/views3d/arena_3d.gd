@@ -52,6 +52,34 @@ const BANNERS := {
     &"rey_calabaza": preload(KIT + "Banner_Calabaza_NaranjaDorado.glb"),
     &"conejo_espectral": preload(KIT + "Banner_Luna_Esmeralda.glb"),
 }
+# --- PBR texture pack (Desktop/newtext) -------------------------------------
+# The kit's GLB materials are named "relief_*"; the pack's MAP uses bare names,
+# so _pbr_key() strips the "relief_" prefix before lookup. Textures live in
+# assets/textures/pbr/ with the pack's _albedo/_normal/_orm/_emission suffixes.
+# The rune emission was retinted to ViewPalette.SPECTRAL_GREEN so the pack
+# clears tools/audit_palette.py. Special tiles (relief_special_orange) are
+# redirected to the rune-glow set so they read as glowing arcane squares.
+const PBR_TEX_DIR := "res://assets/textures/pbr/"
+const PBR_MAP := {
+	"floor_charcoal":     ["floor_stone",    0.22, Color(1.0, 1.0, 1.0)],
+	"slate_dark":         ["wall_brick",     0.30, Color(0.85, 0.85, 0.95)],
+	"rim_stone":          ["wall_brick",     0.45, Color(1.0, 1.0, 1.0)],
+	"stone_pale":         ["tile_pale",      0.90, Color(1.0, 1.0, 1.0)],
+	"stone_pale_motif":   ["tile_pale",      0.90, Color(0.70, 0.70, 0.80)],
+	"stone_navy":         ["floor_stone",    0.30, Color(0.80, 0.85, 1.0)],
+	"altar_tier1_stone":  ["wall_brick",     0.60, Color(0.90, 0.90, 1.0)],
+	"altar_tier2_stone":  ["wall_brick",     0.60, Color(1.0, 1.0, 1.0)],
+	"altar_tier3_stone":  ["floor_stone",    0.60, Color(1.0, 1.0, 1.0)],
+	"wall_purple_stone":  ["wall_brick",     0.80, Color(1.0, 0.95, 1.1)],
+	"base_rock_charcoal": ["floor_stone",    1.20, Color(0.80, 0.80, 0.90)],
+	"wood_dark":          ["wood_dark",      0.60, Color(1.0, 1.0, 1.0)],
+	"door_wood":          ["wood_dark",      0.60, Color(1.0, 1.0, 1.0)],
+	"pumpkin_body":       ["pumpkin_skin",   1.00, Color(1.0, 1.0, 1.0)],
+	"safe_purple":        ["tile_pale",      0.90, Color(0.62, 0.34, 1.0)],
+	"special_orange":     ["tile_rune_glow", 0.90, Color(1.0, 1.0, 1.0)],
+	"corner_navy":        ["tile_pale",      0.90, Color(0.35, 0.40, 0.70)],
+}
+
 const CORNER_SQUARES := [51, 12, 25, 38]   # the four square-ring corners
 
 enum CamMode { ISO, FOLLOW }
@@ -72,6 +100,7 @@ var _hints: Array = []                     # turn rings + destination markers
 var _die: Node3D = null
 var _die_inner: Node3D = null
 var _die_tween: Tween = null
+var _pbr_cache := {}                       # resource_name|tex -> StandardMaterial3D
 
 func _ready() -> void:
     _build_stage()
@@ -93,20 +122,30 @@ func _build_stage() -> void:
     var env := WorldEnvironment.new()
     var e := Environment.new()
     e.background_mode = Environment.BG_COLOR
-    e.background_color = Color(0.043, 0.040, 0.098)
+    e.background_color = Color(0.043, 0.040, 0.098)   # BG_DEEP, matches 2D views
     e.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-    e.ambient_light_color = Color(0.227, 0.204, 0.439)
-    e.ambient_light_energy = 0.45
-    e.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+    e.ambient_light_color = Color(0.30, 0.30, 0.55)
+    e.ambient_light_energy = 0.9
+    e.tonemap_mode = Environment.TONE_MAPPER_ACES     # filmic -> ACES (pack)
+    e.tonemap_exposure = 1.05
     e.glow_enabled = true
-    e.glow_intensity = 0.75
-    e.glow_bloom = 0.1
+    e.glow_intensity = 0.9
+    e.glow_strength = 1.1
+    e.glow_bloom = 0.08
+    e.glow_hdr_threshold = 0.85
     e.ssao_enabled = true
-    e.ssao_radius = 0.6
-    e.ssao_intensity = 0.8
+    e.ssao_radius = 0.9
+    e.ssao_intensity = 2.2
+    e.ssil_enabled = true                             # fake bounce from warm lamps
     e.fog_enabled = true
     e.fog_light_color = Color(0.165, 0.129, 0.314)
     e.fog_density = 0.012
+    e.volumetric_fog_enabled = true                   # moonlit brume (Forward+)
+    e.volumetric_fog_density = 0.015
+    e.volumetric_fog_albedo = Color(0.45, 0.40, 0.75)
+    e.adjustment_enabled = true
+    e.adjustment_saturation = 1.15
+    e.adjustment_contrast = 1.08
     env.environment = e
     add_child(env)
 
@@ -127,6 +166,7 @@ func _build_stage() -> void:
     base.scale = Vector3.ONE * BASE_SCALE
     _strip_nodes(base, "HomeZone")
     add_child(base)
+    _retexture_pbr(base)
 
     # scenery: haunted mansion + moon
     var mansion: Node3D = MANSION_SCENE.instantiate()
@@ -134,6 +174,7 @@ func _build_stage() -> void:
     mansion.rotation_degrees = Vector3(0, 45, 0)
     mansion.scale = Vector3.ONE * 0.95
     add_child(mansion)
+    _retexture_pbr(mansion)
     _scenery.append(mansion)
 
     # key: cold moonlight (shadows, bias from the review pass)
@@ -154,6 +195,14 @@ func _build_stage() -> void:
     fill.rotation_degrees = Vector3(-14.5, 45.0, 0.0)
     add_child(fill)
 
+    # violet rim light (silhouette backlight, from the pack)
+    var rim := DirectionalLight3D.new()
+    rim.light_color = Color(0.75, 0.40, 1.0)
+    rim.light_energy = 0.35
+    rim.rotation_degrees = Vector3(-20.0, 150.0, 0.0)
+    rim.shadow_enabled = false
+    add_child(rim)
+
     # warm corner lamps (Halloween contrast)
     for sx in [-1.0, 1.0]:
         for sz in [-1.0, 1.0]:
@@ -164,6 +213,15 @@ func _build_stage() -> void:
             lamp.shadow_enabled = false
             lamp.position = Vector3(sx * 7.6, 1.7, sz * 7.6)
             add_child(lamp)
+
+    # warm pumpkin glow at the board centre (the altar / central socket)
+    var pumpkin := OmniLight3D.new()
+    pumpkin.light_color = Color(1.0, 0.604, 0.235)
+    pumpkin.light_energy = 2.5
+    pumpkin.omni_range = 6.0
+    pumpkin.shadow_enabled = false
+    pumpkin.position = Vector3(0.0, FLOOR_Y + 0.6, 0.0)
+    add_child(pumpkin)
 
     _cam = Camera3D.new()
     _cam.projection = Camera3D.PROJECTION_ORTHOGONAL
@@ -284,6 +342,73 @@ func _strip_nodes(root: Node, prefix: String) -> void:
         else:
             _strip_nodes(child, prefix)
 
+# ----------------------------------------------------- PBR texture pack ----
+## Replace the kit's baked relief materials with the newtext PBR set, mapped by
+## material name via PBR_MAP. The kit names its materials "relief_*", so we
+## strip that prefix before lookup. Triplanar world mapping (uv1_triplanar +
+## uv1_world_triplanar) means we never depend on the kit's poor UVs.
+
+func _pbr_key(name: String) -> String:
+    return name.substr(5) if name.begins_with("relief_") else name
+
+func _pbr_tex(n: String) -> Texture2D:
+    var p := PBR_TEX_DIR + n
+    if not ResourceLoader.exists(p):
+        return null
+    return load(p)
+
+func _retexture_pbr(n: Node) -> void:
+    if n is MeshInstance3D:
+        var mi := n as MeshInstance3D
+        var mesh := mi.mesh
+        if mesh:
+            for s in mesh.get_surface_count():
+                var m := mi.get_active_material(s)
+                if m is BaseMaterial3D and PBR_MAP.has(_pbr_key(m.resource_name)):
+                    mi.set_surface_override_material(s, _make_pbr(m as BaseMaterial3D, PBR_MAP[_pbr_key(m.resource_name)]))
+    for c in n.get_children():
+        _retexture_pbr(c)
+
+func _make_pbr(src: BaseMaterial3D, cfg: Array) -> StandardMaterial3D:
+    var key := "%s|%s" % [src.resource_name, cfg[0]]
+    if _pbr_cache.has(key):
+        return _pbr_cache[key]
+    var m := StandardMaterial3D.new()
+    m.resource_name = src.resource_name
+    var tint: Color = cfg[2]
+    var a := _pbr_tex(cfg[0] + "_albedo.png")
+    if a:
+        m.albedo_texture = a
+        m.albedo_color = tint
+    else:
+        m.albedo_color = src.albedo_color
+    var nrm := _pbr_tex(cfg[0] + "_normal.png")
+    if nrm:
+        m.normal_enabled = true
+        m.normal_texture = nrm
+        m.normal_scale = 1.1
+    var orm := _pbr_tex(cfg[0] + "_orm.png")
+    if orm:
+        m.ao_enabled = true
+        m.ao_texture = orm
+        m.ao_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_RED
+        m.ao_light_affect = 0.6
+        m.roughness_texture = orm
+        m.roughness_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_GREEN
+    m.metallic = 0.0
+    var e := _pbr_tex(cfg[0] + "_emission.png")
+    if e:
+        m.emission_enabled = true
+        m.emission_texture = e
+        m.emission_energy_multiplier = 1.8
+    m.uv1_triplanar = true
+    m.uv1_world_triplanar = true
+    var sc: float = cfg[1]
+    m.uv1_scale = Vector3(sc, sc, sc)
+    m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+    _pbr_cache[key] = m
+    return m
+
 # ---------------------------------------------------------------- board ----
 
 func _on_settings_changed() -> void:
@@ -330,6 +455,7 @@ func _build_board() -> void:
         var tile: Node3D = _tile_scene_for(i, rules).instantiate()
         tile.position = world_of(lay.ring_position(i)) + Vector3(0.0, FLOOR_Y, 0.0)
         _board_root.add_child(tile)
+        _retexture_pbr(tile)
         var start_of := _start_owner(i, rules)
         if start_of >= 0:
             _tint_tile(tile, ViewPalette.tint(state.players[start_of].faction_id))
@@ -350,6 +476,7 @@ func _build_board() -> void:
         lane.position = world_of(lay.column_position(p, 0)) + Vector3(0.0, FLOOR_Y, 0.0)
         lane.rotation.y = _lane_yaw(p, rules)
         _board_root.add_child(lane)
+        _retexture_pbr(lane)
 
         var out := _outward_dir(p)
         var center := _pen_center(p, lay, rules)
@@ -357,17 +484,20 @@ func _build_board() -> void:
         plat.position = center + out * 0.1 + Vector3(0.0, FLOOR_Y, 0.0)
         plat.rotation.y = atan2(-out.x, -out.z)
         _board_root.add_child(plat)
+        _retexture_pbr(plat)
 
         var banner: Node3D = (BANNERS.get(faction, BANNERS[&"gato_negro"]) as PackedScene).instantiate()
         banner.position = plat.position + out * 0.98 + Vector3(0.0, 0.30, 0.0)
         banner.rotation.y = plat.rotation.y
         _board_root.add_child(banner)
+        _retexture_pbr(banner)
 
     # --- moon altar at the centre socket ---------------------------------
     var altar: Node3D = ALTAR_SCENE.instantiate()
     altar.scale = Vector3.ONE * ALTAR_SCALE
     altar.position = Vector3(0.0, FLOOR_Y, 0.0)
     _board_root.add_child(altar)
+    _retexture_pbr(altar)
 
     _build_pieces()
     _fit_camera.call_deferred()

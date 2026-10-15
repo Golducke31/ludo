@@ -73,6 +73,11 @@ def scan_pngs() -> list[str]:
     for f in sorted(base.rglob("*.png")):
         if ".godot" in f.parts:
             continue
+        # Normal/ORM maps are DATA vectors (tangent space + AO/rough/metal),
+        # not authored art: their channels read as saturated/unhued noise and
+        # must never trip the neon/cyan band. Skip them.
+        if f.stem.endswith("_normal") or f.stem.endswith("_orm"):
+            continue
         img = Image.open(f).convert("RGBA")
         img.thumbnail((256, 256))
         opaque = 0
